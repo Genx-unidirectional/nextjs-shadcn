@@ -11,7 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RecipeNow } from "@/lib/types";
 import { getRecipes } from "@/lib/data";
+import { delay } from "@/lib/utils";
 async function Recipe() {
+  await delay(4000);
   const recipes = await getRecipes();
   return (
     <div className="min-h-screen p-3 w-full md:max-w-4xl mx-auto">
@@ -33,8 +35,8 @@ async function Recipe() {
             </CardHeader>
             <CardContent>{recipe.description}</CardContent>
             <CardFooter className="flex justify-between">
-              <Button variant={"destructive"}>View Recipe</Button>
-              {recipe.vegan && <Badge>Vegan!</Badge>}
+              <Button variant={"default"}>View Recipe</Button>
+              {recipe.vegan && <Badge variant={"outline"}>Vegan!</Badge>}
             </CardFooter>
           </Card>
         ))}
