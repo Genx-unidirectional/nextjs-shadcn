@@ -12,7 +12,7 @@ function Accordion() {
       <button
         className="absolute -top-12 left-[35]3%] bg-white font-medium rounded-lg text-black p-2"
         onClick={() => {
-          console.log("enable multiple");
+          // console.log("enable multiple");
           setEnableMultiple(!enableMultiple);
         }}
       >
@@ -60,7 +60,7 @@ function Block({
   };
   const handleMultiple = () => {
     // console.log("multiple triggered");
-    console.log(ids);
+    // console.log(ids);
     let currentIds = [...ids];
     const idPresent = ids.indexOf(id);
     if (idPresent === -1) currentIds.push(id);
