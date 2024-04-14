@@ -4,7 +4,17 @@ type Props = {
   page: string;
   limit: string;
 };
-type ImageData = {};
+
+type Item = {
+  author: string;
+  download_url: string;
+  height: number;
+  id: string;
+  url: string;
+  width: number;
+};
+
+type ImageData = Item[];
 
 function UseImage({ url, page = "1", limit = "4" }: Props) {
   const [response, setResponse] = useState<{
