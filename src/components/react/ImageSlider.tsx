@@ -1,86 +1,65 @@
 "use client";
+
 import UseImage from "@/hooks/useImage";
-import Image from "next/image";
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
-import { recipes } from "@/lib/react/data";
+import { useMemo, useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 function ImageSlider() {
-  const [imgCount, setImCount] = useState(1);
-  //   const { data, isError, error } = UseImage({
-  //     url: "https://picsum.photos/v2/list",
-  //     page: "1",
-  //     limit: "5",
-  //   });
+  const [count, setCount] = useState<number>(0);
+  const { data, isError, error } = UseImage({
+    url: "https://picsum.photos/v2/list",
+    page: "1",
+    limit: "4",
+  });
+
+  console.log(data);
   const handleIncrement = () => {
-    if (Number(imgCount) < recipes.length) {
-      console.log("increment");
-      setImCount(imgCount + 1);
+    if (count + 1 < data?.length!) {
+      setCount((prev) => prev + 1);
     }
   };
   const handleDecrement = () => {
-    if (Number(imgCount) > 1) {
-      setImCount((prev) => prev - 1);
+    if (count > 0) {
+      setCount((prev) => prev - 1);
     }
   };
+
   return (
-    <div className="relative bg-white w-[90%]  h-[400px] overflow-hidden  lg:w-1/2 md:w-[70%] sm:w-[65%] rounded-lg ">
-      {/* {data?.map((item) => {
-        if (item.id !== imgCount.toString()) {
+    <div className="aspect-square w-3/4 relative rounded-lg overflow-hidden">
+      {data?.map((item, idx) => {
+        if (count !== idx) {
           return null;
         }
         return (
-          <Image
+          <img
+            src={item.download_url}
+            className="w-full h-full object-cover"
+            alt={item.author}
             key={item.id}
-            src={item.url}
-            alt="image"
-            width={100}
-            height={100}
-            className="w-full h-full"
-          ></Image>
-        );
-      })} */}
-      {recipes.map((recipe) => {
-        if (imgCount.toString() !== recipe.id) {
-          return;
-        }
-        return (
-          <Image
-            key={recipe.id}
-            src={`img/${recipe.image}`}
-            alt={recipe.title}
-            width={100}
-            height={100}
-            // layout="fill" // Fill the parent container
-            // objectFit="cover" // Maintain aspect ratio and cover the container
-            className="w-full h-full"
-          ></Image>
+          />
         );
       })}
-      <div
-        onClick={handleDecrement}
-        className="absolute z-10  top-[calc(50%-20px)]"
-      >
-        <ArrowLeftIcon className="w-10 h-10 font-bold cursor-pointer  text-black" />
-      </div>
-      <div
+      <button
         onClick={handleIncrement}
-        className="absolute z-10 top-[calc(50%-20px)] right-0"
+        className="absolute top-[calc(50%-20px)] left-2 text-white z-10"
       >
-        <ArrowRightIcon
-          onClick={() => handleIncrement}
-          className=" w-10 h-10 font-bold cursor-pointer  text-black"
-        />
-      </div>
-      <div className="flex absolute bottom-4 left-[25%] z-10 bg-transparent gap-1 justify-center items-center">
-        {recipes.map((recipe) => (
-          <button
-            key={recipe.id}
-            onClick={() => setImCount(Number(recipe.id))}
-            className={cn("rounded-full bg-slate-300 w-4 h-4", {
-              "bg-slate-50": recipe.id === imgCount.toString(),
+        <ChevronLeftIcon className="w-10 h-10 shadow-2xl shadow-black text-white " />
+      </button>
+      <button
+        onClick={handleDecrement}
+        className="absolute top-[calc(50%-20px)] right-2 text-white z-10"
+      >
+        <ChevronRightIcon className="w-10 h-10 shadow-2xl shadow-black text-white " />
+      </button>
+      <div className="flex absolute bottom-2 left-[35%] z-20 justify-evenly gap-2">
+        {data?.map((_, idx) => (
+          <div
+            key={idx}
+            onClick={() => setCount(idx)}
+            className={cn("bg-slate-400 w-4 h-4 rounded-full", {
+              "bg-slate-50": count === idx,
             })}
-          ></button>
+          ></div>
         ))}
       </div>
     </div>
