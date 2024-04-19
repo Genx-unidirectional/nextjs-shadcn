@@ -19,6 +19,7 @@ const initState: ContextState = {
     RandomColor: false,
     TabTest: false,
     TicTacToe: false,
+    HybridModel: false,
   },
 };
 export const FeatureContext = createContext<ContextState>(initState);
