@@ -44,6 +44,7 @@ function TicTacToe() {
         <div className="h-40 bg-teal-300 gap-1 flex-col flex rounded-lg overflow-hidden overflow-y-scroll p-2">
           {history.map((arr, idx) => (
             <button
+              key={idx}
               onClick={() => jumpTo(idx)}
               className="text-sm text-white bg-black p-[1px] tracking-tight rounded-sm"
             >
