@@ -6,15 +6,15 @@
 import { useState } from "react";
 
 function TicTacToe() {
-  const [xOrOArr, setXOrYArr] = useState<(string | undefined)[]>(
-    Array(9).fill(undefined)
-  );
+  const [history, setHistory] = useState<(string | undefined)[][]>([
+    Array(9).fill(undefined),
+  ]);
   const [isX, setIsX] = useState(true);
   const [isWinner, setIsWinner] = useState("");
-
+  const currentArr = history[history.length - 1];
   const setValue = (id: number) => {
     //we have to assign x or y to the specified index we take in this function
-    const newArr = xOrOArr.splice(0);
+    const newArr = history[history.length - 1].slice(0);
     if (isX) {
       newArr[id] = "X";
       setIsX(false);
@@ -22,22 +22,38 @@ function TicTacToe() {
       newArr[id] = "O";
       setIsX(true);
     }
+    setHistory([...history, newArr]);
 
-    setXOrYArr(newArr);
     const winner = checkWinner(newArr);
     if (winner) {
       setIsWinner(winner);
     }
   };
+  const jumpTo = (idx: number) => {
+    const newHistory = history.slice(0, idx + 1);
+    setHistory(newHistory);
+  };
   const restart = () => {
-    setIsWinner("");
+    jumpTo(0);
     setIsX(true);
-    setXOrYArr(Array(9).fill(undefined));
+    setIsWinner("");
   };
   return (
-    <div className="flex flex-col gap-2 items-center justify-center">
-      <Board setValue={setValue} XorO={xOrOArr} />
-      <div>
+    <div className="flex  gap-2 items-center justify-center">
+      <div className="flex gap-4 ">
+        <div className="h-40 bg-teal-300 gap-1 flex-col flex rounded-lg overflow-hidden overflow-y-scroll p-2">
+          {history.map((arr, idx) => (
+            <button
+              onClick={() => jumpTo(idx)}
+              className="text-sm text-white bg-black p-[1px] tracking-tight rounded-sm"
+            >
+              Hop on {idx}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Board setValue={setValue} XorO={currentArr} />
         <button
           onClick={restart}
           className="bg-white text-black p-[1px] font-medium text-xl rounded-lg"
