@@ -36,7 +36,7 @@ function SearchAutoComplete() {
     user.firstName.toLowerCase().includes(query.toLowerCase())
   );
 
-  console.log(filteredData);
+  console.log(filteredData); 
   return (
     <div className="h-full w-full flex flex-col p-2">
       <input
