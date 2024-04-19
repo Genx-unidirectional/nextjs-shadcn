@@ -18,7 +18,11 @@ function GithubUser() {
   };
   useEffect(() => {
     fetchUser();
-  }, [user]);
+  }, []);
+  const handleClick = () => {
+    fetchUser();
+    setUser("");
+  };
 
   return (
     <div className="min-h-screen w-full flex justify-center gap-2 items-center flex-col">
@@ -26,11 +30,14 @@ function GithubUser() {
         <input
           type="text"
           value={user}
+          placeholder="enter username"
           onChange={(e) => setUser(e.target.value)}
           className="p-1 text-xl rounded-l-lg w-3/4 bg-white text-black"
         />
-        <button className="p-1 text-lg rounded-r-lg s-1/4 text-black bg-white">
-          {" "}
+        <button
+          onClick={handleClick}
+          className="p-1 text-lg rounded-r-lg s-1/4 text-black bg-white"
+        >
           Search
         </button>
       </div>
